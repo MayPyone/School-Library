@@ -2,10 +2,12 @@ require_relative 'person'
 require_relative 'teacher'
 require_relative 'student'
 require_relative 'book'
+require_relative 'rental'
 class Main
   def initialize()
     @person = []
     @books = []
+    @rental = []
   end
 
   def student?
@@ -76,6 +78,29 @@ class Main
     @person.map { |person| puts "[#{person.role}] Name: #{person.name} ID: #{person.id} AGE: #{person.age}" }
   end
 
+  def create_rental()
+    puts 'Select a book from the following list by number'
+    @books.each_with_index do |book, index|
+      print "#{index})  "
+      print "Title: #{book.title}  "
+      puts "Author: #{book.author} "
+    end
+    book_num = gets.chomp.to_i
+    s_book = @books[book_num]
+    puts 'Select a person from the following list by number(not id)'
+    @person.each_with_index do |person, index|
+      print "#{index})  "
+      puts "Name:#{person.name} ID: #{person.id}   Age: #{person.age}"
+    end
+    person_num = gets.chomp.to_i
+    s_person = @person[person_num]
+    print 'Date: '
+    s_date = gets.chomp
+    date = Rental.new(s_date, s_person, s_book)
+    @rental.push(date)
+    puts 'Rental created successfully'
+  end
+
   def option()
     puts 'Please choose an option by entering number'
     puts '1 - List all books'
@@ -99,6 +124,8 @@ class Main
       create_person
     when 4
       create_book
+    when 5
+      create_rental
     when 7
       return
     else
