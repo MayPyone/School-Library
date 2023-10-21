@@ -101,6 +101,14 @@ class Main
     puts 'Rental created successfully'
   end
 
+  def all_rental()
+    print 'ID of a person: '
+    p_id = gets.chomp.to_i
+    @rental.each do |rent|
+      puts "Date: #{rent.date} ,Book #{rent.book.title} by #{rent.book.author}" if rent.person.id == p_id
+    end
+  end
+
   def option()
     puts 'Please choose an option by entering number'
     puts '1 - List all books'
@@ -112,26 +120,34 @@ class Main
     puts '7 - Exit'
   end
 
-  def main()
-    option
-    choose = gets.chomp.to_i
-    case choose
-    when 1
-      book_list
-    when 2
-      personList
-    when 3
-      create_person
-    when 4
-      create_book
-    when 5
-      create_rental
-    when 7
-      return
-    else
-      puts ' sth wrong'
+  def exit
+    puts 'Exiting the program'
+    exit
+  end
+
+  def option_num(choice)
+    case choice
+    when 1 then book_list
+    when 2 then person_list
+    when 3 then create_person
+    when 4 then create_book
+    when 5 then create_rental
+    when 6 then all_rental
     end
-    main
+  end
+
+  def run()
+    loop do
+      option
+      choice = gets.chomp.to_i
+      break if choice == 7
+
+      option_num(choice)
+    end
+  end
+
+  def main()
+    run
   end
 end
 
